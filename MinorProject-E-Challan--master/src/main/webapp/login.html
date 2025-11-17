@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FineSnap Login</title>
+    <link rel="stylesheet" href="login.css">
+    <script>
+        function validateForm() {
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (username === "" || password === "") {
+                alert("Please fill in all the fields.");
+                return false; // Prevent form from submitting
+            }
+            return true;
+        }
+
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            const errorDiv = document.getElementById("error-message");
+
+            if (error === 'invalid') {
+                errorDiv.innerText = "Invalid Username or Password. Please register first.";
+            } else if (error === 'blank') {
+                errorDiv.innerText = "Please fill in all the fields.";
+            } else if (error === 'server') {
+                errorDiv.innerText = "Server error. Please try again later.";
+            }
+        };
+    </script>
+</head>
+<body>
+    <!-- Background and Login Container -->
+    <div class="login-container">
+        <!-- Logo and Heading -->
+        <div class="header">
+            <img src="finesnap_logo.png" alt="FineSnap Logo">
+            <h1>Welcome to FineSnap</h1>
+            <p>Traffic Challan Management System</p>
+        </div>
+
+        <!-- Error Message Display -->
+        <div id="error-message" style="color: red; text-align: center; margin-bottom: 10px;"></div>
+
+        <!-- Login Form -->
+        <form action="LoginServlet" method="post" class="login-form" onsubmit="return validateForm();">
+            <h2>Login</h2>
+            <div class="input-box">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username">
+            </div>
+            <div class="input-box">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+            </div>
+            <div class="button-container">
+                <button type="submit" class="Btn"
+                    style="color: black; background-color: white; border: 1px solid black; margin-left: 15px;">
+                    Log In
+                </button>
+            </div>
+            <a href="registration.html">Sign Up</a>
+            <p class="footer-text">Not registered? Contact your admin.</p>
+        </form>
+    </div>
+</body>
+</html>

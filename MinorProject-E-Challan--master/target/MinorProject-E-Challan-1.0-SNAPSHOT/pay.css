@@ -1,0 +1,332 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 17-Dec-2024, 1:33:39 pm
+    Author     : HP
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    line-height: 1.6;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    background: #fff;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav ul li {
+    margin-right: 20px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+header .join-button a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #000;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+/* Main Section */
+main {
+    padding: 50px;
+    text-align: center;
+}
+
+main h1 {
+    font-size: 1.23rem;
+    margin-bottom: 20px;
+}
+.main_container{
+    display:flex;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+}
+
+.description ul {
+    list-style: none;
+    text-align: left;
+    margin: 20px auto;
+    width: 300px;
+}
+
+.list {
+    position: relative;
+    right: 50px;
+    height: 40%;
+    padding: 0px;
+    line-height: 40px;
+    width: 60%;
+}
+
+/* Input Box */
+.input-box {
+    background-color: white;
+    box-shadow: 0px 3px 15px black;
+    padding: 23px;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+.input-box input {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.input-box button {
+    padding: 10px 20px;
+    width: 100%;
+    background-color: #5c36d8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.head h1{
+    font-size: 2.5rem;
+}
+
+/* Pay Challan Section */
+.pay-challan {
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pay-challan form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.pay-challan input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.qr-code img {
+    width: 300px;
+    height: 300px;
+}
+
+/* E-Challan List */
+.challan-list {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.challan-list ul {
+    list-style: disc;
+    margin-left: 20px;
+}
+.head_list h1{
+    font-size: 2.5rem;
+    padding: 0px 30px;
+}
+
+.challan-list i {
+    font-size: 1.23rem;
+    margin-bottom: 8px;
+}
+.E-Challan_List{
+    padding: 20px;
+}
+
+.image img {
+    width: 450px;
+    height: auto;
+}
+.Pay_form {
+    background: #fff;
+    width: 400px;
+    padding: 25px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #555;
+    text-align: left;
+    font-weight: 600;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+}
+
+input:focus {
+    border-color: #6a5acd;
+    box-shadow: 0 0 8px rgba(106, 90, 205, 0.6);
+    background: #fff;
+}
+
+.pay-button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    color: #fff;
+    background: linear-gradient(to right, #6a5acd, #483d8b);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(106, 90, 205, 0.4);
+    transition: all 0.3s ease;
+}
+
+.pay-button:hover {
+    background: linear-gradient(to right, #483d8b, #6a5acd);
+    box-shadow: 0 8px 20px rgba(72, 61, 139, 0.6);
+}
+
+
+/* Footer */
+footer {
+    background-color: #f9f9f9;
+    padding: 40px 60px;
+    display: flex;
+    display: grid;
+    grid-template-columns: auto auto auto auto ;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    border-top: 1px solid #ddd; 
+    bottom: 0;
+
+}
+.social-icons{
+    width: 23vw;
+    padding-top: 20px;
+}
+.footer_copyright{
+    display: flex;
+    justify-content: space-between;
+    width: 170%;
+    border-top: #000000 1px solid;
+}
+.footer-column {
+    margin-bottom: 20px;
+}
+
+.footer-column h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li a {
+    text-decoration: none;
+    color: #666;
+    font-size: 0.9rem;
+    
+}
+
+.subscribe input {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.subscribe button {
+    padding: 8px 12px;
+    border: none;
+    background: #000;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.Resources{
+    position: relative;
+    right:429px;
+}
+.Resources1{
+    position: relative;
+    right:229px;
+}
+
+.social-icons a {
+    margin: 0 8px;
+    color: #000;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+.copyright {
+  
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
+}

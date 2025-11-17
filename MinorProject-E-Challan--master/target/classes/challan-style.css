@@ -1,0 +1,177 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+    color: #fff;
+    background-size: cover;
+    background-position: center center;
+}
+
+
+
+/* Container with transparent black background */
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+/* Header Section */
+h2 {
+    color: #ffcc00;
+    font-size: 36px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: slideIn 1s ease-out;
+}
+
+/* Animating the header */
+@keyframes slideIn {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+hr {
+    border: 1px solid #ffcc00;
+    margin: 20px 0;
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    background-color: #333;
+    border-radius: 10px;
+}
+
+.table th, .table td {
+    padding: 15px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #444;
+    color: #ffcc00;
+    font-size: 18px;
+}
+
+.table td {
+    background-color: #555;
+    color: #ddd;
+}
+
+.table tr:nth-child(even) td {
+    background-color: #008000;
+}
+
+/* Alert Box */
+.alert-warning {
+    background-color: #f39c12;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    animation: fadeIn 2s ease-out;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Button Styles */
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+/* Background Image */
+body {
+    background: url('busy_crowded_traffic_jam_road.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+}
+
+/* Animated Effects for Alert */
+.alert-warning {
+    animation: pulse 1.5s infinite;
+}
+
+/* Pulsing effect */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Images */
+img.icon {
+    width: 60px;
+    height: 60px;
+    margin-top: 20px;
+    animation: fadeIn 3s ease-in-out;
+}
+
+img.banner {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .table th, .table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    .btn-success {
+        padding: 8px 20px;
+        font-size: 16px;
+    }
+}

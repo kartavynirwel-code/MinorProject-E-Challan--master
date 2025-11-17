@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FineSnap Registration</title>
+    <link rel="stylesheet" href="registration.css">
+</head>
+<body>
+    <!-- Registration Container -->
+    <div class="registration-container">
+        <!-- Logo and Heading -->
+        <div class="header">
+            <img src="finesnap_logo.png" alt="FinePayGo Logo">
+            <h1>Register to FineSnap</h1>
+            <p>Traffic Challan Management System</p>
+        </div>
+
+        <!-- Registration Form -->
+        <form action="registrationServlet" method="post" class="registration-form">
+            <h2>Create an Account</h2>
+            
+            
+            <div class="input-box">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Choose a username" required>
+            </div>
+
+            <div class="input-box">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="input-box">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+
+            <div class="input-box">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" >Register</button>
+            </div>
+
+            <p class="footer-text">Already have an account? <a href="login.html">Login here</a></p>
+        </form>
+    </div>
+</body>
+</html>

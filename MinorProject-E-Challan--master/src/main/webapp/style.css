@@ -1,0 +1,251 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 17-Dec-2024, 1:33:03 pm
+    Author     : HP
+*/
+body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    overflow-x: hidden;
+}
+a{
+    text-decoration: none;
+}
+.main{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.mainNav{
+width: 100%;
+display: flex;
+justify-content: center;
+padding: 10px 0px;
+border-bottom: 2px solid black;
+align-items: center;
+}
+.navbar{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.navLink{
+    color: black;
+    margin: 0px 15px;
+    font-size: 17px;
+    font-family: sans-serif;
+}
+.navBtn{
+    color: white;
+    padding:10px 20px;
+    background-color: black;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.mainContainer{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    
+
+}
+.Fcont{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* border-radius: 60%; */
+}
+.Btn{
+    padding:10px 20px;
+    cursor: pointer;
+    margin: 15px 0px;
+}
+.FcontBtn{
+    margin-top: 15px;
+}
+
+/* .btn :hover{
+    color: green;
+} */
+
+/* .navBtn :hover{  
+    color: aqua;
+} */
+
+
+/* Footer */
+footer {
+    background-color: #f9f9f9;
+    padding: 40px 60px;
+    display: flex;
+    display: grid;
+    grid-template-columns: auto auto auto auto ;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* width: 100%; */
+    border-top: 1px solid #ddd; 
+    bottom: 0;
+
+}
+.social-icons{
+    width: 23vw;
+    padding-top: 20px;
+}
+.footer_copyright{
+    display: flex;
+    justify-content: space-between;
+    width: 190%;
+    border-top: #000000 1px solid;
+}
+.footer-column {
+    margin-bottom: 20px;
+    line-height:25px;
+}
+
+.footer-column h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+
+.footer-column ul li a {
+    text-decoration: none;
+    color: #666;
+    font-size: 0.9rem;
+    
+}
+
+.subscribe input {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.subscribe button {
+    padding: 8px 12px;
+    border: none;
+    background: #000;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.Resources{
+    position: relative;
+    right:429px;
+}
+.Resources h3{
+   margin-left: 35px;
+}
+.Resources1 h3{
+   margin-left: 35px;
+}
+.Resources3 h3{
+    margin-left: 35px;
+
+}
+.Resources1{
+    position: relative;
+    right:229px;
+   
+}
+
+.social-icons a {
+    margin: 0 8px;
+    color: #000;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+.copyright {
+  
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+
+.testimonial-section {
+    text-align: center;
+    /* margin-bottom: 50px; */
+}
+
+.testimonial-section h1 {
+    display: flex;
+    text-align: left;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.testimonial-section p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.testimonials-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.testimonial-card {
+    border-radius: 10px;
+    padding: 40px 0px;
+    /* display: flex; */
+    text-align: center;
+    flex: 1;
+    min-width: 250px;
+}
+.testimonial-card p{
+    display: flex;
+    text-align: left;
+}
+
+.testimonial-card .ri-user-line {
+    display: flex;
+    text-align: left;
+    color: #000;
+    font-size: 2rem;
+    background-color: #ccc;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.testimonial-card h2 {
+    display: flex;
+    text-align: left;
+    font-size: 1rem;
+    margin: 10px 0 5px;
+}
+
+.testimonial-card .testimonial-para {
+    display: flex;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.testimonial-card .stars {
+    display: flex;
+    text-align: left;
+    color: #000000;
+    margin-bottom: 15px;
+    font-size: 1.34rem;
+}

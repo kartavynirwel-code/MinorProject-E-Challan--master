@@ -1,0 +1,105 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url("minor.avif") no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+}
+
+/* Registration Container */
+.registration-container {
+    background: rgba(255, 255, 255, 0.95);
+    width: 450px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Header Section */
+.header img {
+    height: 90px;
+    margin-bottom: 10px;
+}
+
+.header h1 {
+    color: #004d80;
+    font-size: 28px;
+    margin: 5px 0;
+}
+
+.header p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.registration-form {
+    margin-top: 10px;
+}
+
+.registration-form h2 {
+    color: #004d80;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.input-box {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.input-box label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+.button-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #004d80;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-container button:hover {
+    background-color: #003366;
+}
+
+.footer-text {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #555;
+}
+
+.footer-text a {
+    color: #004d80;
+    text-decoration: none;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}

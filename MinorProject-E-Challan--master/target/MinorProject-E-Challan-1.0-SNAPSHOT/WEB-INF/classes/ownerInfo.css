@@ -1,0 +1,96 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 18-Dec-2024, 2:07:29 pm
+    Author     : HP
+*/
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background: url('minor.avif') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* Page Container */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo Styling */
+.logo {
+    display: block;
+    margin: 0 auto 20px;
+    width: 120px;
+    height: auto;
+}
+
+/* Page Title */
+h2 {
+    color: #004d80;
+    font-size: 28px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007acc;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+/* Label Styling */
+label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 16px;
+}
+
+/* Input Field */
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #b3e0ff;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Submit Button */
+input[type="submit"] {
+    background-color: #004d80;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #007acc;
+}
+
+/* Footer */
+footer {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #666;
+}
+
