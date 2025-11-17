@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Java EE 6-Java EE 6">
+    <archive path="C:/Users/Kartavya/Downloads/MinorProject-E-Challan--master/MinorProject-E-Challan--master/lib/javax.ejb.jar" />
+    <archive path="C:/Users/Kartavya/Downloads/MinorProject-E-Challan--master/MinorProject-E-Challan--master/lib/javax.transaction.jar" />
+    <archive path="C:/Users/Kartavya/Downloads/MinorProject-E-Challan--master/MinorProject-E-Challan--master/lib/javax.annotation.jar" />
+    <archive path="C:/Users/Kartavya/Downloads/MinorProject-E-Challan--master/MinorProject-E-Challan--master/lib/javax.servlet.jsp.jar" />
+    <archive path="C:/Users/Kartavya/Downloads/MinorProject-E-Challan--master/MinorProject-E-Challan--master/lib/javax.persistence.jar" />
+    <archive path="C:/Users/Kartavya/Downloads/MinorProject-E-Challan--master/MinorProject-E-Challan--master/lib/javax.resource.jar" />
+    <archive path="C:/Users/Kartavya/Downloads/MinorProject-E-Challan--master/MinorProject-E-Challan--master/lib/javax.jms.jar" />
+    <archive path="C:/Users/Kartavya/Downloads/MinorProject-E-Challan--master/MinorProject-E-Challan--master/lib/javax.servlet.jsp.jstl.jar" />
+    <archive path="C:/Users/Kartavya/Downloads/MinorProject-E-Challan--master/MinorProject-E-Challan--master/lib/javax.servlet.jar" />
+  </library>
+  <library name="Maven: com.google.protobuf:protobuf-java:3.21.9">
+    <archive path="C:/Users/Kartavya/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar" />
+  </library>
+  <library name="Maven: com.google.code.gson:gson:2.10.1">
+    <archive path="C:/Users/Kartavya/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar" />
+  </library>
+  <library name="Maven: javax.servlet:javax.servlet-api:4.0.1">
+    <archive path="C:/Users/Kartavya/.m2/repository/javax/servlet/javax.servlet-api/4.0.1/javax.servlet-api-4.0.1.jar" />
+  </library>
+  <library name="Maven: com.mysql:mysql-connector-j:8.0.33">
+    <archive path="C:/Users/Kartavya/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar" />
+  </library>
+  <library name="Maven: io.jsonwebtoken:jjwt-jackson:0.11.2">
+    <archive path="C:/Users/Kartavya/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.2/jjwt-jackson-0.11.2.jar" />
+  </library>
+  <library name="Maven: io.jsonwebtoken:jjwt-api:0.11.2">
+    <archive path="C:/Users/Kartavya/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.2/jjwt-api-0.11.2.jar" />
+  </library>
+  <library name="Maven: commons-io:commons-io:2.7">
+    <archive path="C:/Users/Kartavya/.m2/repository/commons-io/commons-io/2.7/commons-io-2.7.jar" />
+  </library>
+  <library name="Maven: commons-codec:commons-codec:1.15">
+    <archive path="C:/Users/Kartavya/.m2/repository/commons-codec/commons-codec/1.15/commons-codec-1.15.jar" />
+  </library>
+  <library name="Maven: com.twilio.sdk:twilio:9.15.0">
+    <archive path="C:/Users/Kartavya/.m2/repository/com/twilio/sdk/twilio/9.15.0/twilio-9.15.0.jar" />
+  </library>
+  <library name="Maven: org.apache.httpcomponents:httpcore:4.4.13">
+    <archive path="C:/Users/Kartavya/.m2/repository/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar" />
+  </library>
+  <library name="Maven: org.apache.httpcomponents:httpclient:4.5.13">
+    <archive path="C:/Users/Kartavya/.m2/repository/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar" />
+  </library>
+  <library name="Maven: org.codehaus.woodstox:stax2-api:4.2.1">
+    <archive path="C:/Users/Kartavya/.m2/repository/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.0">
+    <archive path="C:/Users/Kartavya/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.14.0/jackson-datatype-jsr310-2.14.0.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.0">
+    <archive path="C:/Users/Kartavya/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.14.0/jackson-dataformat-xml-2.14.0.jar" />
+  </library>
+  <library name="Maven: commons-logging:commons-logging:1.2">
+    <archive path="C:/Users/Kartavya/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar" />
+  </library>
+  <library name="Maven: io.jsonwebtoken:jjwt-impl:0.11.2">
+    <archive path="C:/Users/Kartavya/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.2/jjwt-impl-0.11.2.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.core:jackson-core:2.14.0">
+    <archive path="C:/Users/Kartavya/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.14.0/jackson-core-2.14.0.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.core:jackson-databind:2.14.0">
+    <archive path="C:/Users/Kartavya/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.14.0/jackson-databind-2.14.0.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.woodstox:woodstox-core:6.4.0">
+    <archive path="C:/Users/Kartavya/.m2/repository/com/fasterxml/woodstox/woodstox-core/6.4.0/woodstox-core-6.4.0.jar" />
+  </library>
+  <library name="Maven: org.slf4j:slf4j-api:1.7.30">
+    <archive path="C:/Users/Kartavya/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar" />
+  </library>
+  <library name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.14.0">
+    <archive path="C:/Users/Kartavya/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.14.0/jackson-annotations-2.14.0.jar" />
+  </library>
+</eclipse-userlibraries>
+
