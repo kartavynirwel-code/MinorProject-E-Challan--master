@@ -9,53 +9,48 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Set character encoding
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
-        // Fetch form parameters
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Check for empty fields
-        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+        if (username == null || password == null || username.trim().isEmpty() || password.trim().isEmpty()) {
             response.sendRedirect("login.html?error=blank");
             return;
         }
 
         try {
-            // Load MySQL JDBC Driver
             Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/echallan", "root", "root"
+            );
 
-            // Establish database connection
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/finepaygo", "root", "root");
-
-            // Prepare SQL query
-            String query = "SELECT * FROM users WHERE username=? AND password=?";
-            PreparedStatement pst = con.prepareStatement(query);
+            // Correct column name (password_hash)
+            String sql = "SELECT * FROM users WHERE username=? AND password_hash=?";
+            PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, username);
             pst.setString(2, password);
 
-            // Execute query
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
-                // User exists: Start session and redirect to dashboard
+                // Create session
                 HttpSession session = request.getSession();
-                session.setAttribute("username", username);
+                session.setAttribute("username", rs.getString("username"));
+                session.setAttribute("role", rs.getString("role"));
+                session.setAttribute("userId", rs.getInt("id"));
+                session.setAttribute("name", rs.getString("name"));
+
                 response.sendRedirect("dashboard.jsp");
             } else {
-                // Invalid login: Redirect to login page with error
                 response.sendRedirect("login.html?error=invalid");
             }
 
-            // Close connection
             con.close();
-        } catch (Exception e) {
-            // Log error for server-side debugging
-            e.printStackTrace();
 
-            // Redirect to login with generic error message
+        } catch (Exception e) {
+            e.printStackTrace();
             response.sendRedirect("login.html?error=server");
         }
     }

@@ -11,7 +11,7 @@ public class PaymentStatusServlet extends HttpServlet {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/finepaygo", "root", "root");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/echallan", "root", "root");
 
             String query = "SELECT * FROM challans WHERE vehicle_number=?";
             PreparedStatement pst = con.prepareStatement(query);

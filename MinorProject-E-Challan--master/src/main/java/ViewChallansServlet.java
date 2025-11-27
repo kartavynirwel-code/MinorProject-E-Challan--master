@@ -13,7 +13,7 @@ public class ViewChallansServlet extends HttpServlet {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/finepaygo", "root", "root");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/echallan", "root", "root");
 
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT vehicle_number, amount FROM challans");
