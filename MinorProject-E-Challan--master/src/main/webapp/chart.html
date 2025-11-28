@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Challan Data Chart - FineSnap</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css?v=1.0">
+    <style>
+        /* small helper for empty-state (keeps your CSS unchanged otherwise) */
+        .no-data { text-align:center; color:#666; margin:20px 0; }
+        .chart-container { max-width: 1100px; margin: 24px auto; }
+    </style>
 </head>
 <body>
 
 <h2>Challan Data Analysis</h2>
 
-<label for="filter">Filter By:</label>    
+<label for="filter">Filter By:</label>
 <select id="filter">
     <option value="all">All</option>
     <option value="today">Today's Challans</option>
@@ -21,72 +27,139 @@
     <canvas id="challanChart"></canvas>
 </div>
 
+<div id="noDataMessage" class="no-data" style="display:none;">No data to display for the selected filter.</div>
+
 <script>
-    let allData = []; 
+    // Replace '/api/challans' with '/YourAppName/api/challans' if your app is deployed under a context path.
+    const API_URL = 'api/challans'; // relative URL — works when page and servlet are in same app context
+
+    let allData = [];
     let chartInstance = null;
     const ctx = document.getElementById('challanChart').getContext('2d');
+    const noDataEl = document.getElementById('noDataMessage');
 
-    fetch('ChallanDataServlet')
-        .then(response => response.json())
-        .then(data => {
-            allData = data;
-            updateChart('all'); 
+    fetch(API_URL)
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok: ' + response.statusText);
+            return response.json();
         })
-        .catch(error => console.error('Error loading challan data:', error));
+        .then(data => {
+            // data is expected to be array of objects:
+            // { challanNo, vehiclePlate, fineAmount, status, issueDate }
+            allData = Array.isArray(data) ? data : [];
+            // normalize/clean: convert issueDate to Date object where possible
+            allData = allData.map(item => {
+                const copy = Object.assign({}, item);
+                copy._date = item.issueDate ? new Date(item.issueDate) : null;
+                return copy;
+            });
+            updateChart('all');
+        })
+        .catch(error => {
+            console.error('Error loading challan data:', error);
+            noDataEl.textContent = 'Could not load challan data. Check server or endpoint.';
+            noDataEl.style.display = 'block';
+        });
 
-    function formatDate(inputDate) {
-        const date = new Date(inputDate);
-        return date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    function formatDateToLabel(d) {
+        if (!d) return 'Unknown';
+        return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
     }
 
     function filterData(filterType) {
         const today = new Date();
         return allData.filter(item => {
-            const issueDate = new Date(item.issueDate);
+            const date = item._date;
+            if (!date) {
+                // include unknown-date items only when filter = all
+                return filterType === 'all';
+            }
             switch (filterType) {
                 case 'today':
-                    return issueDate.toDateString() === today.toDateString();
+                    return date.toDateString() === today.toDateString();
                 case 'month':
-                    return issueDate.getMonth() === today.getMonth() && issueDate.getFullYear() === today.getFullYear();
+                    return date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
                 case 'year':
-                    return issueDate.getFullYear() === today.getFullYear();
+                    return date.getFullYear() === today.getFullYear();
                 default:
                     return true;
             }
+        }).sort((a, b) => {
+            // sort ascending by date (nulls last)
+            if (!a._date && !b._date) return 0;
+            if (!a._date) return 1;
+            if (!b._date) return -1;
+            return a._date - b._date;
         });
     }
 
-    function updateChart(filterType) {
-        const filteredData = filterData(filterType);
-        const vehicleNumbers = filteredData.map(item => item.vehicleNumber);
-        const amounts = filteredData.map(item => item.amount);
-        const dates = filteredData.map(item => formatDate(item.issueDate));
-
-        if (chartInstance) {
-            chartInstance.destroy();  
+    // simple generator for colors (returns N-color array)
+    function makeColors(n) {
+        const base = [
+            'rgba(52,152,219,0.8)',
+            'rgba(46,204,113,0.8)',
+            'rgba(231,76,60,0.8)',
+            'rgba(241,196,15,0.85)',
+            'rgba(155,89,182,0.85)'
+        ];
+        const borders = [
+            'rgba(41,128,185,1)',
+            'rgba(39,174,96,1)',
+            'rgba(192,57,43,1)',
+            'rgba(243,156,18,1)',
+            'rgba(142,68,173,1)'
+        ];
+        const bg = [];
+        const br = [];
+        for (let i=0;i<n;i++) {
+            bg.push(base[i % base.length]);
+            br.push(borders[i % borders.length]);
         }
+        return {bg, br};
+    }
+
+    function updateChart(filterType) {
+        const filtered = filterData(filterType);
+        if (!filtered.length) {
+            // hide chart and show no-data message
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null;
+            }
+            noDataEl.style.display = 'block';
+            return;
+        } else {
+            noDataEl.style.display = 'none';
+        }
+
+        const labels = filtered.map(item => item._date ? formatDateToLabel(item._date) : 'Unknown');
+        const amounts = filtered.map(item => Number(item.fineAmount) || 0);
+        const vehicles = filtered.map(item => item.vehiclePlate || item.challanNo || 'Unknown');
+
+        const colors = makeColors(amounts.length);
+
+        if (chartInstance) chartInstance.destroy();
 
         chartInstance = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: dates,
+                labels: labels,
                 datasets: [{
                     label: 'Challan Amount (₹)',
                     data: amounts,
-                    backgroundColor: ['rgba(52, 152, 219, 0.7)', 'rgba(46, 204, 113, 0.7)'],
-                    borderColor: ['rgba(41, 128, 185, 1)', 'rgba(39, 174, 96, 1)'],
-                    borderWidth: 2
+                    backgroundColor: colors.bg,
+                    borderColor: colors.br,
+                    borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                animation: {
-                    duration: 800,
-                    easing: 'easeOutQuart'
-                },
+                maintainAspectRatio: false,
+                animation: { duration: 600, easing: 'easeOutQuart' },
                 scales: {
                     x: {
-                        title: { display: true, text: 'Date of Issue' }
+                        title: { display: true, text: 'Date of Issue' },
+                        ticks: { maxRotation: 45, minRotation: 0 }
                     },
                     y: {
                         title: { display: true, text: 'Amount (₹)' },
@@ -97,10 +170,19 @@
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return `₹ ${context.raw} (Vehicle: ${vehicleNumbers[context.dataIndex]})`;
+                                const amt = context.parsed.y;
+                                const idx = context.dataIndex;
+                                const vehicle = vehicles[idx] || 'Unknown';
+                                return `₹ ${amt} — Vehicle: ${vehicle}`;
+                            },
+                            title: function(context) {
+                                // show full date as title in tooltip
+                                const idx = context[0].dataIndex;
+                                return labels[idx];
                             }
                         }
-                    }
+                    },
+                    legend: { display: false }
                 }
             }
         });

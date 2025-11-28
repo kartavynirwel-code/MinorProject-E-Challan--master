@@ -64,7 +64,7 @@ public class OwnerInfoServlet extends HttpServlet {
             out.println("<p class='text-danger'>Error: " + e.getMessage() + "</p>");
         }
 
-        out.println("<a href='index.html' class='btn btn-primary mt-3'>Back</a>");
+        out.println("<a href='dashboard.jsp' class='btn btn-primary mt-3'>Back</a>");
         out.println("</div></div>");
         out.println("</body></html>");
     }
