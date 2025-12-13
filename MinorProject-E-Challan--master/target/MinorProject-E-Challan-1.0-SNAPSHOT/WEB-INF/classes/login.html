@@ -3,68 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FineSnap Login</title>
-    <link rel="stylesheet" href="login.css">
+    <title>Login - FINESNAP</title>
+
+    <!-- ✅ Apply theme immediately before page renders (SYNC WITH DASHBOARD) -->
     <script>
-        function validateForm() {
-            const username = document.getElementById("username").value.trim();
-            const password = document.getElementById("password").value.trim();
-
-            if (username === "" || password === "") {
-                alert("Please fill in all the fields.");
-                return false; // Prevent form from submitting
+        (function() {
+            const theme = localStorage.getItem('theme') || 'dark';
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
             }
-            return true;
-        }
-
-        window.onload = function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const error = urlParams.get('error');
-            const errorDiv = document.getElementById("error-message");
-
-            if (error === 'invalid') {
-                errorDiv.innerText = "Invalid Username or Password. Please register first.";
-            } else if (error === 'blank') {
-                errorDiv.innerText = "Please fill in all the fields.";
-            } else if (error === 'server') {
-                errorDiv.innerText = "Server error. Please try again later.";
-            }
-        };
+        })();
     </script>
+
+    <link rel="stylesheet" href="login.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <!-- Background and Login Container -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <i class="fas fa-sun theme-icon"></i>
+    <i class="fas fa-moon theme-icon"></i>
+</button>
+
+<div class="login-wrapper">
     <div class="login-container">
-        <!-- Logo and Heading -->
         <div class="header">
-            <img src="finesnap_logo.png" alt="FineSnap Logo">
-            <h1>Welcome to FineSnap</h1>
-            <p>Traffic Challan Management System</p>
+            <div class="logo-container">
+                <img src="finesnap_logo.png" alt="FineSnap Logo" class="logo">
+            </div>
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Login to access your dashboard</p>
         </div>
 
-        <!-- Error Message Display -->
-        <div id="error-message" style="color: red; text-align: center; margin-bottom: 10px;"></div>
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <i class="ri-error-warning-line"></i>
+            <span id="errorText">Invalid credentials!</span>
+        </div>
 
-        <!-- Login Form -->
-        <form action="LoginServlet" method="post" class="login-form" onsubmit="return validateForm();">
-            <h2>Login</h2>
-            <div class="input-box">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username">
+        <!-- ✅ Form submits to LoginServlet -->
+        <form class="login-form" action="LoginServlet" method="POST">
+            <h2>
+                <i class="ri-login-circle-line"></i>
+                Sign In
+            </h2>
+
+            <div class="input-group">
+                <label for="username">
+                    <i class="ri-user-line"></i>
+                    Username
+                </label>
+                <input type="text" id="username" name="username"
+                       placeholder="Enter your username" required>
             </div>
-            <div class="input-box">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password">
+
+            <div class="input-group">
+                <label for="password">
+                    <i class="ri-lock-line"></i>
+                    Password
+                </label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password"
+                           placeholder="Enter your password" required>
+                    <button type="button" class="toggle-password" onclick="togglePassword()">
+                        <i class="ri-eye-line" id="toggleIcon"></i>
+                    </button>
+                </div>
             </div>
-            <div class="button-container">
-                <button type="submit" class="Btn"
-                    style="color: black; background-color: white; border: 1px solid black; margin-left: 15px;">
-                    Log In
-                </button>
+
+            <div class="remember-forgot">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="rememberMe">
+                    <span>Remember me</span>
+                </label>
+                <!-- ✅ Link to forgot password page -->
+                <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
             </div>
-            <a href="registration.html">Sign Up</a>
-            <p class="footer-text">Not registered? Contact your admin.</p>
+
+            <button type="submit" class="login-btn">
+                <i class="ri-login-circle-line"></i>
+                Login
+            </button>
         </form>
+
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        <!-- ✅ Link to registration.html -->
+        <a href="registration.html" class="signup-btn">
+            <i class="ri-user-add-line"></i>
+            Create New Account
+        </a>
+
+        <div class="footer-text">
+            <i class="ri-arrow-left-line"></i>
+            <a href="index.html" style="color: var(--accent-primary); text-decoration: none;">Back to Home</a>
+        </div>
     </div>
+</div>
+
+<script>
+    // ========== THEME TOGGLE WITH LOCALSTORAGE SYNC (MATCHES DASHBOARD) ==========
+    (function() {
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // ✅ Toggle theme and save to localStorage
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+
+            if (currentTheme === 'light') {
+                htmlElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                console.log('🎨 Theme changed to: light');
+            } else {
+                htmlElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+                console.log('🎨 Theme changed to: dark');
+            }
+        });
+    })();
+
+    // ========== PASSWORD TOGGLE ==========
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('toggleIcon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('ri-eye-line');
+            toggleIcon.classList.add('ri-eye-off-line');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('ri-eye-off-line');
+            toggleIcon.classList.add('ri-eye-line');
+        }
+    }
+
+    // ========== CHECK FOR ERROR PARAMETER ==========
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('error')) {
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            errorText.textContent = 'Invalid username or password!';
+            errorMessage.style.display = 'flex';
+        }
+    })();
+</script>
 </body>
 </html>

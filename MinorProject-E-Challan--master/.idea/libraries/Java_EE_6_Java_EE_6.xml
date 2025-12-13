@@ -10,8 +10,12 @@
       <root url="jar://$PROJECT_DIR$/lib/javax.jms.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jsp.jstl.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.mail-1.6.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/activation-1.1.1.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/pdfbox-2.0.29-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES />
   </library>
 </component>

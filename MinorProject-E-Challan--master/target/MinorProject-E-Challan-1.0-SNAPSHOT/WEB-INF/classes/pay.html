@@ -1,158 +1,252 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Challan Portal</title>
+    <title>E-Challan Portal - FineSnap</title>
+
+    <!-- ⚡ CRITICAL: Apply saved theme IMMEDIATELY (before CSS loads) -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'dark';
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
     <link rel="stylesheet" href="pay.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
-        <div class="" href="fine pay go.png">
-            <h2>Logo</h2>
+<!-- Header -->
+<header>
+    <div class="logo">
+        <h2>FineSnap</h2>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Services</a></li>
+        </ul>
+    </nav>
+    <div class="header-actions">
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle Theme">
+            <i class="fas fa-sun theme-icon"></i>
+            <i class="fas fa-moon theme-icon"></i>
+        </button>
+        <!-- Back to Dashboard Button -->
+        <div class="back-button">
+            <a href="dashboard.jsp">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+            </a>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Services</a></li>
-            </ul>
-        </nav>
-        <div class="join-button">
-            <a href="login.html">Join</a>
-        </div>
-    </header>
+    </div>
+</header>
 
-    <!-- Main Section -->
-    <main class="main_container">
-        <div class="head">
-            <h1>Check E-Challan Online</h1>
-            <div class="description">
-                <ul class="list">
-                    <i class="ri-collage-fill">Check Your Traffic E-Challan For Free</i>
-                    <i class="ri-collage-fill">Easily Pay Your Traffic E-Challan</i> <br>
-                    <i class="ri-collage-fill">Avoid Court Visits - Settle Challan Online</i>
-                </ul>
+<!-- Main Section -->
+<main class="main_container" id="home">
+    <div class="head">
+        <h1>Check E-Challan Online</h1>
+        <div class="description">
+            <ul class="list">
+                <li><i class="ri-check-line"></i>Check Your Traffic E-Challan For Free</li>
+                <li><i class="ri-check-line"></i>Easily Pay Your Traffic E-Challan</li>
+                <li><i class="ri-check-line"></i>Avoid Court Visits - Settle Challan Online</li>
+            </ul>
+        </div>
+    </div>
+    <div class="form_container">
+        <form action="viewChallan.jsp" method="get">
+            <div class="input-box">
+                <h1 class="heading">Enter Vehicle Number</h1>
+                <input type="text"
+                       name="vehiclePlate"
+                       id="vehicleInput"
+                       placeholder="e.g., MH12AB1234"
+                       maxlength="13"
+                       required>
+                <button type="submit">
+                    <i class="fas fa-search"></i>
+                    View Challan
+                </button>
             </div>
+        </form>
+    </div>
+</main>
+
+<!-- E-Challan List -->
+<section class="challan-list" id="services">
+    <div class="head_list">
+        <h1>Common Traffic Violations</h1>
+        <ul class="E-Challan_List">
+            <li><i class="ri-alert-line"></i>Driving Without Insurance</li>
+            <li><i class="ri-alert-line"></i>Offenses by Juveniles</li>
+            <li><i class="ri-alert-line"></i>Drunken Driving / Driving Under Influence</li>
+            <li><i class="ri-alert-line"></i>Over-speeding / Racing</li>
+            <li><i class="ri-alert-line"></i>Jumping Red Light / Signal Violation</li>
+            <li><i class="ri-alert-line"></i>Not Wearing Seatbelt</li>
+            <li><i class="ri-alert-line"></i>Unauthorized Modifications of Vehicles</li>
+            <li><i class="ri-alert-line"></i>Overloading Vehicle</li>
+            <li><i class="ri-alert-line"></i>Using Mobile Phone While Driving</li>
+            <li><i class="ri-alert-line"></i>Driving Without Registration</li>
+            <li><i class="ri-alert-line"></i>Violating Parking Rules</li>
+        </ul>
+    </div>
+    <div class="image">
+        <img src="./src/image 1.png" alt="Traffic Violations Illustration" />
+    </div>
+</section>
+
+<!-- Pay Challan Section -->
+<section class="pay-challan">
+    <div class="Pay_form">
+        <h1><i class="fas fa-credit-card"></i> Pay Challan</h1>
+        <form action="Payment.jsp" method="post">
+            <div class="form-group">
+                <label for="vehicle-no"><i class="fas fa-car"></i> Vehicle Number:</label>
+                <input type="text" id="vehicle-no" name="vehicleNumber" placeholder="HR26DL8384" required />
+            </div>
+
+            <div class="form-group">
+                <label for="date"><i class="fas fa-calendar"></i> Date:</label>
+                <input type="date" id="date" name="date" required />
+            </div>
+
+            <div class="form-group">
+                <label for="description"><i class="fas fa-file-alt"></i> Challan Description:</label>
+                <input type="text" id="description" name="description" placeholder="Description here" required />
+            </div>
+
+            <div class="form-group">
+                <label for="contact"><i class="fas fa-phone"></i> Contact:</label>
+                <input type="text" id="contact" name="contact" placeholder="Contact Number" maxlength="10" required />
+            </div>
+
+            <button type="submit" class="pay-button">
+                <i class="fas fa-money-bill-wave"></i>
+                Pay Now
+            </button>
+        </form>
+    </div>
+    <div class="qr-code">
+        <div class="qr-wrapper">
+            <h3><i class="fas fa-qrcode"></i> Scan to Pay</h3>
+            <img src="./src/image 2.png" alt="QR Code for Payment" />
+            <p class="qr-hint">Scan with any UPI app to pay instantly</p>
         </div>
-        <div class="form_container">
-            <form>
-                <div class="input-box">
-                    <h1 class="heading">Enter Vehicle Number</h1>
-                    <input type="text" placeholder="Enter Vehicle Number">
-                    <br>
-                    <button href="issuechallan.jsp">View challan</button>
-                </div>
-            </form>
-        </div>
-    </main>
+    </div>
+</section>
 
-
-    <!-- E-Challan List -->
-    <section class="challan-list">
-        <div class="head_list">
-            <h1>Your E-Challan List</h1>
-            <ul class="E-Challan_List">
-                <i class="ri-collage-fill"> Driving Without Insurance</i> <br>
-                <i class="ri-collage-fill"> Offenses by Juveniles</i> <br>
-                <i class="ri-collage-fill"> Drunken Driving / Driving Under Influence</i> <br>
-                <i class="ri-collage-fill"> Over-speeding / Racing</i> <br>
-                <i class="ri-collage-fill"> Jumping Red Light / Signal Violation</i> <br>
-                <i class="ri-collage-fill"> Not Wearing Seatbelt</i> <br>
-                <i class="ri-collage-fill"> Unauthorized Modifications of Vehicles</i> <br>
-                <i class="ri-collage-fill"> Overloading Vehicle</i> <br>
-                <i class="ri-collage-fill"> Using Mobile Phone While Driving</i> <br>
-                <i class="ri-collage-fill"> Driving Without Registration</i> <br>
-                <i class="ri-collage-fill"> Violating Parking Rules</i>
-            </ul>
-        </div>
-        <div class="image">
-            <img src="./src/image 1.png" alt="Illustration" />
-        </div>
-    </section>
-
-    <!-- Pay Challan Section -->
-    <section class="pay-challan">
-        <div class="Pay_form">
-            <h1>Pay Challan</h1>
-            <form>
-                <label for="vehicle-no">Enter Vehicle NO:</label>
-                <input type="text" id="vehicle-no" placeholder="HR26DL8384" />
-
-                <label for="date">Date:</label>
-                <input type="date" id="date" />
-
-                <label for="description">Challan Description:</label>
-                <input type="text" id="description" placeholder="Description here" />
-
-                <label for="contact">Contact:</label>
-                <input type="text" id="contact" placeholder="Contact Number" />
-            </form>
-        </div>
-        <div class="qr-code">
-            <img src="./src/image 2.png" alt="QR Code" />
-        </div>
-    </section>
-
-
-
-    <!-- Footer -->
-    <footer>
+<!-- Footer -->
+<footer id="about">
+    <div class="footer-content">
         <div class="footer-column">
             <h3>Quick Links</h3>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Support</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">FAQs</a></li>
+                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#services"><i class="fas fa-cogs"></i> Services</a></li>
+                <li><a href="#"><i class="fas fa-headset"></i> Support</a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                <li><a href="#"><i class="fas fa-question-circle"></i> FAQs</a></li>
             </ul>
         </div>
         <div class="footer-column Resources">
             <h3>Resources</h3>
             <ul>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Guides</a></li>
-                <li><a href="#">Webinars</a></li>
-                <li><a href="#">Case Studies</a></li>
-                <li><a href="#">Testimonials</a></li>
+                <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
+                <li><a href="#"><i class="fas fa-book"></i> Guides</a></li>
+                <li><a href="#"><i class="fas fa-video"></i> Webinars</a></li>
+                <li><a href="#"><i class="fas fa-briefcase"></i> Case Studies</a></li>
+                <li><a href="#"><i class="fas fa-star"></i> Testimonials</a></li>
             </ul>
         </div>
         <div class="footer-column Resources1">
             <h3>Stay Connected</h3>
             <ul>
-                <li><a href="#">Facebook</a></li>
-                <li><a href="#">Twitter</a></li>
-                <li><a href="#">LinkedIn</a></li>
-                <li><a href="#">Instagram</a></li>
-                <li><a href="#">YouTube</a></li>
+                <li><a href="#"><i class="ri-facebook-fill"></i> Facebook</a></li>
+                <li><a href="#"><i class="ri-twitter-fill"></i> Twitter</a></li>
+                <li><a href="#"><i class="ri-linkedin-fill"></i> LinkedIn</a></li>
+                <li><a href="#"><i class="ri-instagram-line"></i> Instagram</a></li>
+                <li><a href="#"><i class="ri-youtube-fill"></i> YouTube</a></li>
             </ul>
         </div>
         <div class="subscribe">
-            <h3>Subscribe</h3>
-            <input type="email" placeholder="Enter your email">
-            <button>Subscribe</button>
+            <h3>Subscribe to Updates</h3>
+            <p>Get the latest traffic updates and notifications</p>
+            <div class="subscribe-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">
+                    <i class="fas fa-paper-plane"></i>
+                    Subscribe
+                </button>
+            </div>
         </div>
-    
-      <div class="footer_copyright">
+    </div>
+
+    <div class="footer_copyright">
         <div class="copyright">
             &copy; 2025 FineSnap. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
         </div>
         <div class="social-icons">
-            <a href="#"><i class="ri-facebook-fill"></i></a>
-            <a href="#"><i class="ri-twitter-fill"></i></a>
-            <a href="#"><i class="ri-linkedin-fill"></i></a>
-            <a href="#"><i class="ri-instagram-line"></i></a>
-            <a href="#"><i class="ri-youtube-fill"></i></a>
-        </div> 
-      </div>
-    </footer>
-</body>
+            <a href="#" aria-label="Facebook"><i class="ri-facebook-fill"></i></a>
+            <a href="#" aria-label="Twitter"><i class="ri-twitter-fill"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+            <a href="#" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+            <a href="#" aria-label="YouTube"><i class="ri-youtube-fill"></i></a>
+        </div>
+    </div>
+</footer>
 
+<!-- JavaScript -->
+<script>
+    // ========== THEME TOGGLE FUNCTIONALITY ==========
+    (function() {
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // Toggle theme on button click
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+
+            if (currentTheme === 'light') {
+                htmlElement.setAttribute('data-theme', 'light');
+            } else {
+                htmlElement.removeAttribute('data-theme');
+            }
+
+            localStorage.setItem('theme', currentTheme);
+            console.log('✅ Theme changed to:', currentTheme);
+        });
+    })();
+
+    // ========== AUTO UPPERCASE INPUT ==========
+    const vehicleInput = document.getElementById('vehicleInput');
+
+    if (vehicleInput) {
+        vehicleInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        });
+    }
+
+    // ========== SMOOTH SCROLL ==========
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+</script>
+</body>
 </html>

@@ -2,199 +2,830 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Challan Data Chart - FineSnap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challan Data Analysis - FineSnap</title>
+
+    <!-- ⚡ CRITICAL: Apply saved theme IMMEDIATELY (before CSS loads) -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'dark';
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css?v=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        /* small helper for empty-state (keeps your CSS unchanged otherwise) */
-        .no-data { text-align:center; color:#666; margin:20px 0; }
-        .chart-container { max-width: 1100px; margin: 24px auto; }
+        /* ========== IMPORTS ========== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        /* ========== ROOT VARIABLES (DARK THEME - DEFAULT) ========== */
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #141b2d;
+            --bg-card: #1a2035;
+            --bg-card-hover: #1f2742;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #06b6d4;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #2d3548;
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.6);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ========== LIGHT THEME VARIABLES ========== */
+        [data-theme="light"] {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8fafc;
+            --accent-primary: #2563eb;
+            --accent-secondary: #0891b2;
+            --accent-success: #059669;
+            --accent-warning: #d97706;
+            --accent-danger: #dc2626;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        /* ========== HEADER ========== */
+        header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-left h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-left h1 i {
+            color: var(--accent-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* ========== THEME TOGGLE BUTTON ========== */
+        .theme-toggle {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .theme-icon {
+            position: absolute;
+            font-size: 1.4rem;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        :root .theme-icon.fa-sun {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+            color: #fbbf24;
+        }
+
+        :root .theme-icon.fa-moon {
+            opacity: 0;
+            transform: rotate(180deg) scale(0);
+            color: #60a5fa;
+        }
+
+        [data-theme="light"] .theme-icon.fa-sun {
+            opacity: 0;
+            transform: rotate(-180deg) scale(0);
+        }
+
+        [data-theme="light"] .theme-icon.fa-moon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .back-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* ========== MAIN CONTAINER ========== */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* ========== FILTER BOX ========== */
+        .filter-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .filter-group label i {
+            color: var(--accent-primary);
+        }
+
+        .filter-group select {
+            padding: 0.7rem 1.2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 150px;
+        }
+
+        .filter-group select:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .filter-group select option {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        /* ========== CHART CARD ========== */
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .chart-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-header h3 i {
+            color: var(--accent-primary);
+        }
+
+        .chart-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-primary);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 400px !important;
+        }
+
+        #error {
+            color: var(--accent-danger);
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 600;
+            padding: 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            color: var(--accent-primary);
+            animation: spin 1s linear infinite;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .chart-card {
+                padding: 1.5rem;
+            }
+
+            .filter-box {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .filter-group {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .filter-group select {
+                width: 100%;
+            }
+
+            .chart-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .chart-stats {
+                width: 100%;
+                justify-content: space-around;
+                gap: 1rem;
+            }
+
+            .stat-item {
+                padding: 0.8rem 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.2rem;
+            }
+
+            .theme-toggle {
+                width: 45px;
+                height: 45px;
+            }
+
+            .theme-icon {
+                font-size: 1.2rem;
+            }
+
+            canvas {
+                height: 300px !important;
+            }
+        }
+
+        /* ========== SCROLLBAR ========== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-primary);
+        }
     </style>
 </head>
+
 <body>
 
-<h2>Challan Data Analysis</h2>
+<!-- ========== HEADER ========== -->
+<header>
+    <div class="header-left">
+        <h1>
+            <i class="fas fa-chart-line"></i>
+            Challan Data Analysis
+        </h1>
+    </div>
 
-<label for="filter">Filter By:</label>
-<select id="filter">
-    <option value="all">All</option>
-    <option value="today">Today's Challans</option>
-    <option value="month">This Month's Challans</option>
-    <option value="year">This Year's Challans</option>
-</select>
+    <div class="header-right">
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle Theme">
+            <i class="fas fa-sun theme-icon"></i>
+            <i class="fas fa-moon theme-icon"></i>
+        </button>
 
-<div class="chart-container">
-    <canvas id="challanChart"></canvas>
+        <a href="dashboard.jsp" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to Dashboard
+        </a>
+    </div>
+</header>
+
+<!-- ========== MAIN CONTAINER ========== -->
+<div class="container">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2>Challan Analytics Dashboard</h2>
+        <p>Track and analyze traffic violation trends</p>
+    </div>
+
+    <!-- Filter Box -->
+    <div class="filter-box">
+        <!-- Time Period Filter -->
+        <div class="filter-group">
+            <label>
+                <i class="fas fa-calendar-alt"></i>
+                Time Period:
+            </label>
+            <select id="periodFilter">
+                <option value="today">Today</option>
+                <option value="month" selected>This Month</option>
+                <option value="year">This Year</option>
+            </select>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="filter-group">
+            <label>
+                <i class="fas fa-filter"></i>
+                Status:
+            </label>
+            <select id="statusFilter">
+                <option value="All">All Challans</option>
+                <option value="Paid">Paid Only</option>
+                <option value="Unpaid">Unpaid Only</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Chart Card -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <h3>
+                <i class="fas fa-chart-area"></i>
+                Challan Amount Trends
+            </h3>
+            <div class="chart-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="totalAmount">₹0</span>
+                    <span class="stat-label">Total Amount</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="totalChallans">0</span>
+                    <span class="stat-label">Total Challans</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="loadingIndicator" class="loading" style="display: none;">
+            <i class="fas fa-spinner"></i>
+            <p>Loading chart data...</p>
+        </div>
+
+        <canvas id="challanChart"></canvas>
+        <p id="error"></p>
+    </div>
+
 </div>
 
-<div id="noDataMessage" class="no-data" style="display:none;">No data to display for the selected filter.</div>
+<!-- ========== FOOTER ========== -->
+<footer>
+    <p>&copy; 2025 FineSnap Traffic Management System. All Rights Reserved.</p>
+</footer>
 
+<!-- ========== JAVASCRIPT ========== -->
 <script>
-    // Replace '/api/challans' with '/YourAppName/api/challans' if your app is deployed under a context path.
-    const API_URL = 'api/challans'; // relative URL — works when page and servlet are in same app context
+    // ========== THEME TOGGLE FUNCTIONALITY ==========
+    let chart = null;
 
-    let allData = [];
-    let chartInstance = null;
-    const ctx = document.getElementById('challanChart').getContext('2d');
-    const noDataEl = document.getElementById('noDataMessage');
+    (function() {
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
 
-    fetch(API_URL)
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok: ' + response.statusText);
-            return response.json();
-        })
-        .then(data => {
-            // data is expected to be array of objects:
-            // { challanNo, vehiclePlate, fineAmount, status, issueDate }
-            allData = Array.isArray(data) ? data : [];
-            // normalize/clean: convert issueDate to Date object where possible
-            allData = allData.map(item => {
-                const copy = Object.assign({}, item);
-                copy._date = item.issueDate ? new Date(item.issueDate) : null;
-                return copy;
-            });
-            updateChart('all');
-        })
-        .catch(error => {
-            console.error('Error loading challan data:', error);
-            noDataEl.textContent = 'Could not load challan data. Check server or endpoint.';
-            noDataEl.style.display = 'block';
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+
+            if (currentTheme === 'light') {
+                htmlElement.setAttribute('data-theme', 'light');
+            } else {
+                htmlElement.removeAttribute('data-theme');
+            }
+
+            localStorage.setItem('theme', currentTheme);
+            console.log('✅ Theme changed to:', currentTheme);
+
+            // Update chart colors based on theme
+            if (chart) {
+                updateChartTheme();
+            }
         });
+    })();
 
-    function formatDateToLabel(d) {
-        if (!d) return 'Unknown';
-        return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-    }
+    // ========== CHART FUNCTIONALITY ==========
+    document.addEventListener("DOMContentLoaded", function () {
 
-    function filterData(filterType) {
-        const today = new Date();
-        return allData.filter(item => {
-            const date = item._date;
-            if (!date) {
-                // include unknown-date items only when filter = all
-                return filterType === 'all';
-            }
-            switch (filterType) {
-                case 'today':
-                    return date.toDateString() === today.toDateString();
-                case 'month':
-                    return date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
-                case 'year':
-                    return date.getFullYear() === today.getFullYear();
-                default:
-                    return true;
-            }
-        }).sort((a, b) => {
-            // sort ascending by date (nulls last)
-            if (!a._date && !b._date) return 0;
-            if (!a._date) return 1;
-            if (!b._date) return -1;
-            return a._date - b._date;
-        });
-    }
+        const canvas = document.getElementById("challanChart");
+        const periodFilter = document.getElementById("periodFilter");
+        const statusFilter = document.getElementById("statusFilter");
+        const errorBox = document.getElementById("error");
+        const loadingIndicator = document.getElementById("loadingIndicator");
+        const totalAmountEl = document.getElementById("totalAmount");
+        const totalChallansEl = document.getElementById("totalChallans");
 
-    // simple generator for colors (returns N-color array)
-    function makeColors(n) {
-        const base = [
-            'rgba(52,152,219,0.8)',
-            'rgba(46,204,113,0.8)',
-            'rgba(231,76,60,0.8)',
-            'rgba(241,196,15,0.85)',
-            'rgba(155,89,182,0.85)'
-        ];
-        const borders = [
-            'rgba(41,128,185,1)',
-            'rgba(39,174,96,1)',
-            'rgba(192,57,43,1)',
-            'rgba(243,156,18,1)',
-            'rgba(142,68,173,1)'
-        ];
-        const bg = [];
-        const br = [];
-        for (let i=0;i<n;i++) {
-            bg.push(base[i % base.length]);
-            br.push(borders[i % borders.length]);
-        }
-        return {bg, br};
-    }
+        const ctx = canvas.getContext("2d");
 
-    function updateChart(filterType) {
-        const filtered = filterData(filterType);
-        if (!filtered.length) {
-            // hide chart and show no-data message
-            if (chartInstance) {
-                chartInstance.destroy();
-                chartInstance = null;
-            }
-            noDataEl.style.display = 'block';
-            return;
-        } else {
-            noDataEl.style.display = 'none';
+        function getThemeColors() {
+            const isDark = !document.documentElement.hasAttribute('data-theme');
+            return {
+                borderColor: isDark ? '#3b82f6' : '#2563eb',
+                backgroundColor: isDark ? 'rgba(59, 130, 246, 0.2)' : 'rgba(37, 99, 235, 0.2)',
+                gridColor: isDark ? '#2d3548' : '#e2e8f0',
+                textColor: isDark ? '#94a3b8' : '#475569'
+            };
         }
 
-        const labels = filtered.map(item => item._date ? formatDateToLabel(item._date) : 'Unknown');
-        const amounts = filtered.map(item => Number(item.fineAmount) || 0);
-        const vehicles = filtered.map(item => item.vehiclePlate || item.challanNo || 'Unknown');
+        function updateChartTheme() {
+            if (!chart) return;
 
-        const colors = makeColors(amounts.length);
+            const colors = getThemeColors();
+            chart.data.datasets[0].borderColor = colors.borderColor;
+            chart.data.datasets[0].backgroundColor = colors.backgroundColor;
+            chart.data.datasets[0].pointBackgroundColor = colors.borderColor;
+            chart.options.scales.x.grid.color = colors.gridColor;
+            chart.options.scales.y.grid.color = colors.gridColor;
+            chart.options.scales.x.ticks.color = colors.textColor;
+            chart.options.scales.y.ticks.color = colors.textColor;
+            chart.options.scales.x.title.color = colors.textColor;
+            chart.options.scales.y.title.color = colors.textColor;
+            chart.options.plugins.legend.labels.color = colors.textColor;
+            chart.update('none'); // No animation on theme change
+        }
 
-        if (chartInstance) chartInstance.destroy();
+        async function loadData() {
+            const period = periodFilter.value;
+            const status = statusFilter.value;
 
-        chartInstance = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Challan Amount (₹)',
-                    data: amounts,
-                    backgroundColor: colors.bg,
-                    borderColor: colors.br,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: { duration: 600, easing: 'easeOutQuart' },
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Date of Issue' },
-                        ticks: { maxRotation: 45, minRotation: 0 }
+            errorBox.innerText = "";
+            errorBox.style.display = "none";
+            loadingIndicator.style.display = "block";
+            canvas.style.display = "none";
+
+            try {
+                const response = await fetch(
+                    "chart-data?filter=" + encodeURIComponent(status) + "&period=" + encodeURIComponent(period)
+                );
+
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+
+                const data = await response.json();
+
+                loadingIndicator.style.display = "none";
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    if (chart) chart.destroy();
+                    errorBox.innerHTML = '<i class="fas fa-info-circle"></i> No challan data available for the selected filter.';
+                    errorBox.style.display = "flex";
+                    totalAmountEl.innerText = "₹0";
+                    totalChallansEl.innerText = "0";
+                    return;
+                }
+
+                const labels = data.map(d => d.date);
+                const values = data.map(d => d.total);
+
+                // Calculate totals
+                const totalAmount = values.reduce((sum, val) => sum + val, 0);
+                const totalChallans = data.length;
+
+                totalAmountEl.innerText = "₹" + totalAmount.toLocaleString();
+                totalChallansEl.innerText = totalChallans;
+
+                canvas.style.display = "block";
+
+                if (chart) chart.destroy();
+
+                const colors = getThemeColors();
+
+                chart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: "Total Challan Amount (₹)",
+                            data: values,
+                            borderColor: colors.borderColor,
+                            backgroundColor: colors.backgroundColor,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            pointBackgroundColor: colors.borderColor,
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        }]
                     },
-                    y: {
-                        title: { display: true, text: 'Amount (₹)' },
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const amt = context.parsed.y;
-                                const idx = context.dataIndex;
-                                const vehicle = vehicles[idx] || 'Unknown';
-                                return `₹ ${amt} — Vehicle: ${vehicle}`;
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: "top",
+                                labels: {
+                                    color: colors.textColor,
+                                    font: {
+                                        size: 14,
+                                        weight: 600,
+                                        family: 'Inter'
+                                    }
+                                }
                             },
-                            title: function(context) {
-                                // show full date as title in tooltip
-                                const idx = context[0].dataIndex;
-                                return labels[idx];
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                padding: 12,
+                                displayColors: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        return '₹' + context.parsed.y.toLocaleString();
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: "Amount (₹)",
+                                    color: colors.textColor,
+                                    font: {
+                                        size: 14,
+                                        weight: 600,
+                                        family: 'Inter'
+                                    }
+                                },
+                                ticks: {
+                                    color: colors.textColor,
+                                    callback: function(value) {
+                                        return '₹' + value.toLocaleString();
+                                    }
+                                },
+                                grid: {
+                                    color: colors.gridColor
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: "Date",
+                                    color: colors.textColor,
+                                    font: {
+                                        size: 14,
+                                        weight: 600,
+                                        family: 'Inter'
+                                    }
+                                },
+                                ticks: {
+                                    color: colors.textColor
+                                },
+                                grid: {
+                                    color: colors.gridColor
+                                }
                             }
                         }
-                    },
-                    legend: { display: false }
-                }
-            }
-        });
-    }
+                    }
+                });
 
-    document.getElementById('filter').addEventListener('change', function() {
-        updateChart(this.value);
+            } catch (err) {
+                console.error(err);
+                loadingIndicator.style.display = "none";
+                errorBox.innerHTML = '<i class="fas fa-exclamation-circle"></i> Could not load challan data. Please try again later.';
+                errorBox.style.display = "flex";
+                totalAmountEl.innerText = "₹0";
+                totalChallansEl.innerText = "0";
+            }
+        }
+
+        // Filter change events
+        periodFilter.addEventListener("change", loadData);
+        statusFilter.addEventListener("change", loadData);
+
+        // Initial load
+        loadData();
     });
 </script>
-
-<br>
-<a href="dashboard.jsp">Back to Dashboard</a>
 
 </body>
 </html>

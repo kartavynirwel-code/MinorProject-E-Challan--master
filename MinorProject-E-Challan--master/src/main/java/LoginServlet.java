@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
 
         // Basic validation
         if (username.isEmpty() || password.isEmpty()) {
-            response.sendRedirect("login.html?error=blank");
+            response.sendRedirect("login.html");
             return;
         }
 
@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
                 try (ResultSet rs = pst.executeQuery()) {
                     if (!rs.next()) {
                         // user not found
-                        response.sendRedirect("login.html?error=invalid");
+                        response.sendRedirect("login.html");
                         return;
                     }
 
@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
                     boolean passwordMatches = verifyPassword(password, storedHash);
 
                     if (!passwordMatches) {
-                        response.sendRedirect("login.html?error=invalid");
+                        response.sendRedirect("login.html");
                         return;
                     }
 
@@ -88,7 +88,7 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception e) {
             // log server error and redirect with server error flag
             e.printStackTrace();
-            response.sendRedirect("login.html?error=server");
+            response.sendRedirect("login.html");
         }
     }
 

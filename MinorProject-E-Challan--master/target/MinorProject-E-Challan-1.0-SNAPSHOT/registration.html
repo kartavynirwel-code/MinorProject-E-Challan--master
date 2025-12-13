@@ -3,50 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FineSnap Registration</title>
+    <title>Register - FINESNAP</title>
+
+    <!-- ✅ Apply theme immediately -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'dark';
+            if (theme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+
     <link rel="stylesheet" href="registration.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <!-- Registration Container -->
+<!-- Theme Toggle Button -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <i class="fas fa-sun theme-icon"></i>
+    <i class="fas fa-moon theme-icon"></i>
+</button>
+
+<div class="registration-wrapper">
     <div class="registration-container">
-        <!-- Logo and Heading -->
+        <!-- Header -->
         <div class="header">
-            <img src="finesnap_logo.png" alt="FinePayGo Logo">
-            <h1>Register to FineSnap</h1>
-            <p>Traffic Challan Management System</p>
+            <div class="logo-container">
+                <img src="finesnap_logo.png" alt="FineSnap Logo" class="logo">
+            </div>
+            <h1>Create Account</h1>
+            <p class="subtitle">Join the Traffic Management System</p>
+        </div>
+
+        <!-- Success/Error Messages -->
+        <div class="success-message" id="successMessage" style="display: none;">
+            <i class="ri-checkbox-circle-line"></i>
+            <span id="successText">Registration successful!</span>
+        </div>
+
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <i class="ri-error-warning-line"></i>
+            <span id="errorText">Registration failed!</span>
         </div>
 
         <!-- Registration Form -->
-        <form action="registrationServlet" method="post" class="registration-form">
-            <h2>Create an Account</h2>
-            
-            
-            <div class="input-box">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Choose a username" required>
+        <form action="registrationServlet" method="POST" class="registration-form" onsubmit="return validateForm()">
+            <h2>
+                <i class="ri-user-add-line"></i>
+                Sign Up
+            </h2>
+
+            <div class="input-group">
+                <label for="username">
+                    <i class="ri-user-line"></i>
+                    Username
+                </label>
+                <input type="text" id="username" name="username"
+                       placeholder="Choose a username" required minlength="3">
             </div>
 
-            <div class="input-box">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <div class="input-group">
+                <label for="email">
+                    <i class="ri-mail-line"></i>
+                    Email Address
+                </label>
+                <input type="email" id="email" name="email"
+                       placeholder="Enter your email" required>
             </div>
 
-            <div class="input-box">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Create a password" required>
+            <div class="input-group">
+                <label for="password">
+                    <i class="ri-lock-line"></i>
+                    Password
+                </label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password"
+                           placeholder="Create a password" required minlength="6">
+                    <button type="button" class="toggle-password" onclick="togglePassword('password', 'toggleIcon1')">
+                        <i class="ri-eye-line" id="toggleIcon1"></i>
+                    </button>
+                </div>
             </div>
 
-            <div class="input-box">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+            <div class="input-group">
+                <label for="confirmPassword">
+                    <i class="ri-lock-check-line"></i>
+                    Confirm Password
+                </label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirmPassword" name="confirmPassword"
+                           placeholder="Confirm your password" required minlength="6">
+                    <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword', 'toggleIcon2')">
+                        <i class="ri-eye-line" id="toggleIcon2"></i>
+                    </button>
+                </div>
             </div>
 
-            <div class="button-container">
-                <button type="submit" >Register</button>
-            </div>
-
-            <p class="footer-text">Already have an account? <a href="login.html">Login here</a></p>
+            <button type="submit" class="register-btn">
+                <i class="ri-user-add-line"></i>
+                Create Account
+            </button>
         </form>
+
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        <a href="login.html" class="login-btn">
+            <i class="ri-login-circle-line"></i>
+            Already have an account? Login
+        </a>
+
+        <div class="footer-text">
+            <i class="ri-arrow-left-line"></i>
+            <a href="index.html" style="color: var(--accent-primary); text-decoration: none;">Back to Home</a>
+        </div>
     </div>
+</div>
+
+<script>
+    // ========== THEME TOGGLE ==========
+    (function() {
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+
+            if (currentTheme === 'light') {
+                htmlElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    })();
+
+    // ========== PASSWORD TOGGLE ==========
+    function togglePassword(inputId, iconId) {
+        const passwordInput = document.getElementById(inputId);
+        const toggleIcon = document.getElementById(iconId);
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('ri-eye-line');
+            toggleIcon.classList.add('ri-eye-off-line');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('ri-eye-off-line');
+            toggleIcon.classList.add('ri-eye-line');
+        }
+    }
+
+    // ========== FORM VALIDATION ==========
+    function validateForm() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+
+        if (password !== confirmPassword) {
+            errorText.textContent = 'Passwords do not match!';
+            errorMessage.style.display = 'flex';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+            return false;
+        }
+
+        return true;
+    }
+
+    // ========== CHECK FOR SUCCESS/ERROR PARAMETERS ==========
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if (urlParams.get('success')) {
+            const successMessage = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+            successText.textContent = 'Registration successful! Redirecting to login...';
+            successMessage.style.display = 'flex';
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 2000);
+        }
+
+        if (urlParams.get('error')) {
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const errorType = urlParams.get('error');
+
+            if (errorType === 'exists') {
+                errorText.textContent = 'Username or Email already exists!';
+            } else if (errorType === 'password') {
+                errorText.textContent = 'Passwords do not match!';
+            } else {
+                errorText.textContent = 'Registration failed! Please try again.';
+            }
+
+            errorMessage.style.display = 'flex';
+        }
+    })();
+</script>
 </body>
 </html>
